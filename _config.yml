@@ -42,6 +42,7 @@ minima:
     twitter: PolIoannis
     github: ioannispol
     linkedin: giannis-polimenis
+    medium: https://medium.com/@ipolymenis
 
 # Set this to true to get LaTeX math equation support
 use_math: true
