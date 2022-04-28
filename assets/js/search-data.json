@@ -25,24 +25,24 @@
 
   
   
-
-  
-      ,"page1": {
-          "title": "About Me",
+      ,"page0": {
+          "title": "Home",
           "content": "",
-          "url": "https://polymenis.xyz/notebooks/about/",
-          "relUrl": "/about/",
+          "url": "https://polymenis.xyz/notebooks/home/",
+          "relUrl": "/home/",
           "date": ""
       }
       
   
 
   
+
+  
       ,"page2": {
-          "title": "Home",
+          "title": "About Me",
           "content": "",
-          "url": "https://polymenis.xyz/notebooks/home/",
-          "relUrl": "/home/",
+          "url": "https://polymenis.xyz/notebooks/about/",
+          "relUrl": "/about/",
           "date": ""
       }
       
@@ -66,7 +66,7 @@
   
       ,"page9": {
           "title": "",
-          "content": "{“/about/”:”https://ipolymenis.xyz/bio.html”,”/home/”:”https://ipolymenis.xyz/”} .",
+          "content": "{“/home/”:”https://ipolymenis.xyz/”,”/about/”:”https://ipolymenis.xyz/bio.html”} .",
           "url": "https://polymenis.xyz/notebooks/redirects.json",
           "relUrl": "/redirects.json",
           "date": ""
