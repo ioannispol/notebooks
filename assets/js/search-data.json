@@ -29,7 +29,7 @@
   
       ,"page1": {
           "title": "About Me",
-          "content": "This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
+          "content": "",
           "url": "https://polymenis.xyz/notebooks/about/",
           "relUrl": "/about/",
           "date": ""
@@ -53,6 +53,14 @@
   
 
   
+      ,"page8": {
+          "title": "",
+          "content": "{“/about/”:”https://ipolymenis.xyz/bio.html”} .",
+          "url": "https://polymenis.xyz/notebooks/redirects.json",
+          "relUrl": "/redirects.json",
+          "date": ""
+      }
+      
   
 
   
@@ -67,6 +75,9 @@
           "date": ""
       }
       
+  
+
+  
   
 
 }
