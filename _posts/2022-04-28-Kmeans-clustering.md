@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: A minimal example of using markdown with fastpages.
+description: k means clustering.
 categories: [markdown]
 title: An Example Markdown Post
 ---
