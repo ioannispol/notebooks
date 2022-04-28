@@ -41,7 +41,7 @@ minima:
   social_links:
     twitter: PolIoannis
     github: ioannispol
-    url: ipolymenis.xyz
+    linkedin: https://www.linkedin.com/in/giannis-polimenis/
 
 # Set this to true to get LaTeX math equation support
 use_math: true
