@@ -1,1 +1,1 @@
-Sitemap: https://polymenis.xyz/sitemap.xml
+Sitemap: https://polymenis.xyz/notebooks/sitemap.xml
