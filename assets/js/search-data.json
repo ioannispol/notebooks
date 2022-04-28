@@ -38,6 +38,17 @@
   
 
   
+      ,"page2": {
+          "title": "Home",
+          "content": "",
+          "url": "https://polymenis.xyz/notebooks/home/",
+          "relUrl": "/home/",
+          "date": ""
+      }
+      
+  
+
+  
 
   
   
@@ -53,9 +64,9 @@
   
 
   
-      ,"page8": {
+      ,"page9": {
           "title": "",
-          "content": "{“/about/”:”https://ipolymenis.xyz/bio.html”} .",
+          "content": "{“/about/”:”https://ipolymenis.xyz/bio.html”,”/home/”:”https://ipolymenis.xyz/”} .",
           "url": "https://polymenis.xyz/notebooks/redirects.json",
           "relUrl": "/redirects.json",
           "date": ""
@@ -67,7 +78,7 @@
   
 
   
-      ,"page10": {
+      ,"page11": {
           "title": "",
           "content": "Sitemap: {{ “sitemap.xml” | absolute_url }} | .",
           "url": "https://polymenis.xyz/notebooks/robots.txt",
