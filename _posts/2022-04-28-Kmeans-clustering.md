@@ -3,7 +3,7 @@ toc: true
 layout: post
 description: k means clustering.
 categories: [markdown]
-title: An Example Markdown Post
+title: A k means clustering note
 ---
 
 # k means clustering
