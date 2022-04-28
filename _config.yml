@@ -38,7 +38,7 @@ baseurl: "/notebooks" # the subpath of your site, e.g. "/blog".
 
 # Github and twitter are optional:
 minima:
-  skin: dark
+  skin: solarized-dark
   social_links:
     twitter: PolIoannis
     github: ioannispol
