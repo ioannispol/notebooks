@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Python Decision Tree Algorithm | Ioannis Polymenis</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Python Decision Tree Algorithm" />
+<meta name="author" content="Ioannis Polymenis" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Python implementaion of the Decision Tree Algorithm" />
+<meta property="og:description" content="Python implementaion of the Decision Tree Algorithm" />
+<link rel="canonical" href="https://polymenis.xyz/notebooks/machine-learning/jupyter/2022/04/29/decision-trees.html" />
+<meta property="og:url" content="https://polymenis.xyz/notebooks/machine-learning/jupyter/2022/04/29/decision-trees.html" />
+<meta property="og:site_name" content="Ioannis Polymenis" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-29T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Python Decision Tree Algorithm" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ioannis Polymenis"},"dateModified":"2022-04-29T00:00:00-05:00","datePublished":"2022-04-29T00:00:00-05:00","description":"Python implementaion of the Decision Tree Algorithm","headline":"Python Decision Tree Algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"https://polymenis.xyz/notebooks/machine-learning/jupyter/2022/04/29/decision-trees.html"},"url":"https://polymenis.xyz/notebooks/machine-learning/jupyter/2022/04/29/decision-trees.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notebooks/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://polymenis.xyz/notebooks/feed.xml" title="Ioannis Polymenis" /><link rel="shortcut icon" type="image/x-icon" href="/notebooks/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notebooks/">Ioannis Polymenis</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notebooks/home/">Home</a><a class="page-link" href="/notebooks/search/">Search</a><a class="page-link" href="/notebooks/categories/">Tags</a><a class="page-link" href="/notebooks/about/">About Me</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Python Decision Tree Algorithm</h1><p class="page-description">Python implementaion of the Decision Tree Algorithm</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-29T00:00:00-05:00" itemprop="datePublished">
+        Apr 29, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Ioannis Polymenis</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notebooks/categories/#machine-learning">machine-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notebooks/categories/#jupyter">jupyter</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/ioannispol/notebooks/tree/master/_notebooks/2022-04-29-decision-trees.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/notebooks/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/ioannispol/notebooks/master?filepath=_notebooks%2F2022-04-29-decision-trees.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/notebooks/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/ioannispol/notebooks/blob/master/_notebooks/2022-04-29-decision-trees.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/notebooks/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Fioannispol%2Fnotebooks%2Fblob%2Fmaster%2F_notebooks%2F2022-04-29-decision-trees.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/notebooks/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#What-is-a-decision-tree">What is a decision tree </a></li>
+<li class="toc-entry toc-h1"><a href="#Classification-tasks-using-Decision-Trees">Classification tasks using Decision Trees </a></li>
+<li class="toc-entry toc-h1"><a href="#The-dataset">The dataset </a></li>
+<li class="toc-entry toc-h1"><a href="#The-Algorithm-breakdown">The Algorithm breakdown </a></li>
+<li class="toc-entry toc-h1"><a href="#The-Gini-Index">The Gini Index </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Gini-Example">Gini Example </a></li>
+<li class="toc-entry toc-h4"><a href="#Create-the-splite-node-and-the-dataset">Create the splite node and the dataset </a></li>
+<li class="toc-entry toc-h4"><a href="#Create-the-Tree">Create the Tree </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-04-29-decision-trees.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="What-is-a-decision-tree">
+<a class="anchor" href="#What-is-a-decision-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is a decision tree<a class="anchor-link" href="#What-is-a-decision-tree"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Classification-tasks-using-Decision-Trees">
+<a class="anchor" href="#Classification-tasks-using-Decision-Trees" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification tasks using Decision Trees<a class="anchor-link" href="#Classification-tasks-using-Decision-Trees"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-dataset">
+<a class="anchor" href="#The-dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>The dataset<a class="anchor-link" href="#The-dataset"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-Algorithm-breakdown">
+<a class="anchor" href="#The-Algorithm-breakdown" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Algorithm breakdown<a class="anchor-link" href="#The-Algorithm-breakdown"> </a>
+</h1>
+<ul>
+<li>The Gini Index</li>
+<li>The Split </li>
+<li>Building the tree</li>
+<li>Generate Predictions</li>
+<li>Apply to the case study</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-Gini-Index">
+<a class="anchor" href="#The-Gini-Index" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Gini Index<a class="anchor-link" href="#The-Gini-Index"> </a>
+</h1>
+<p>The Gini Index, aslo reffered as the Gini Impurity, is calculated by subtracting the sumation of the probabilities of each class in the dataset</p>
+<p>
+$$Gini = \sum_{i=1}^{C} (p_i) * (1 - p_i)$$
+</p>
+<p>Where $p$ is the probability of each class $C$</p>
+<p>Gini index can be discribed as the <strong>cost function</strong> of the Classification and Regression Trees (CART) at the split node. The Gini Index estimates how good a split is by taking into account how mixed the classes are at the split node. Gini score of $0$ results to a perfect separation where a Gini score of $50/50$ results in an equal distribution of $0.5$ for each class.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Gini-Example">
+<a class="anchor" href="#Gini-Example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gini Example<a class="anchor-link" href="#Gini-Example"> </a>
+</h4>
+<p>Supose we have 2 classes of data with 2 rows in class. For a perfect split of $0$ we need the data inth first or the second row to belong either in the first or the secind class.<br>
+First we need to calculate the ratio between the classes in each group.</p>
+<p><code>ratio = mumber_of(class) / number_of(rows)</code></p>
+<p>So the Gini Index will be:</p>
+<div class="highlight"><pre><span></span><span class="n">gini_index</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">))</span>
+</pre></div>
+<p>For the Gini Index (GI) to have correct output need to introduce the size of each group relave to the entire samples in the <em>parent node</em></p>
+<p>So, the GI will be:</p>
+<div class="highlight"><pre><span></span><span class="n">gini_index</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">size_of_group</span><span class="o">/</span><span class="n">total_samples</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">gini_index</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">classes</span><span class="p">):</span>
+    <span class="c1"># count the samples at split node</span>
+    <span class="n">n_instances</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">]))</span>
+
+    <span class="n">gini</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+        <span class="c1"># prevent zero division</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
+        
+        <span class="c1"># group score based on the score of each class</span>
+        <span class="k">for</span> <span class="n">class_val</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">class_val</span><span class="p">)</span> <span class="o">/</span> <span class="n">size</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">p</span>
+        <span class="c1"># apply the formula</span>
+        <span class="n">gini</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">score</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="n">n_instances</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">gini</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test the gini function</span>
+
+<span class="n">groups1</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+    <span class="p">]</span>
+
+<span class="n">groups2</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="p">]</span>
+
+<span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">gini_index</span><span class="p">(</span><span class="n">groups1</span><span class="p">,</span> <span class="n">classes</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gini_index</span><span class="p">(</span><span class="n">groups2</span><span class="p">,</span> <span class="n">classes</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.5
+0.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Create-the-splite-node-and-the-dataset">
+<a class="anchor" href="#Create-the-splite-node-and-the-dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create the splite node and the dataset<a class="anchor-link" href="#Create-the-splite-node-and-the-dataset"> </a>
+</h4>
+<p>The split node is composed by a value and an attribute in the dataset</p>
+<p>Splitting the dataset means to</p>
+<ul>
+<li>loop over the rows in the dataset </li>
+<li>check if the attributes are below or above the split value</li>
+<li>append the values to the left or the right group</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_split</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+    <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Select the best split point for a dataset</span>
+<span class="k">def</span> <span class="nf">get_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+	<span class="n">class_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">))</span>
+	<span class="n">b_index</span><span class="p">,</span> <span class="n">b_value</span><span class="p">,</span> <span class="n">b_score</span><span class="p">,</span> <span class="n">b_groups</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="kc">None</span>
+	<span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+			<span class="n">groups</span> <span class="o">=</span> <span class="n">test_split</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">dataset</span><span class="p">)</span>
+			<span class="n">gini</span> <span class="o">=</span> <span class="n">gini_index</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">class_values</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">gini</span> <span class="o">&lt;</span> <span class="n">b_score</span><span class="p">:</span>
+				<span class="n">b_index</span><span class="p">,</span> <span class="n">b_value</span><span class="p">,</span> <span class="n">b_score</span><span class="p">,</span> <span class="n">b_groups</span> <span class="o">=</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">gini</span><span class="p">,</span> <span class="n">groups</span>
+	<span class="k">return</span> <span class="p">{</span><span class="s1">'index'</span><span class="p">:</span><span class="n">b_index</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">:</span><span class="n">b_value</span><span class="p">,</span> <span class="s1">'groups'</span><span class="p">:</span><span class="n">b_groups</span><span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">2.771244718</span><span class="p">,</span><span class="mf">1.784783929</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">1.728571309</span><span class="p">,</span><span class="mf">1.169761413</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">3.678319846</span><span class="p">,</span><span class="mf">2.81281357</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">3.961043357</span><span class="p">,</span><span class="mf">2.61995032</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">2.999208922</span><span class="p">,</span><span class="mf">2.209014212</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">7.497545867</span><span class="p">,</span><span class="mf">3.162953546</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">9.00220326</span><span class="p">,</span><span class="mf">3.339047188</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">7.444542326</span><span class="p">,</span><span class="mf">0.476683375</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">10.12493903</span><span class="p">,</span><span class="mf">3.234550982</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">6.642287351</span><span class="p">,</span><span class="mf">3.319983761</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+	<span class="p">[</span><span class="mf">6.642287351</span><span class="p">,</span><span class="mf">3.319983761</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span>
+	
+<span class="n">dataset</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.476683375</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">x_val1</span><span class="p">,</span> <span class="n">x_val2</span><span class="p">,</span> <span class="n">y_val</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+    <span class="n">x1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_val1</span><span class="p">)</span>
+    <span class="n">x2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_val2</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_val</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=================="</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=================="</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[2.771244718, 1.728571309, 3.678319846, 3.961043357, 2.999208922, 7.497545867, 9.00220326, 7.444542326, 10.12493903, 6.642287351, 6.642287351]
+==================
+[1.784783929, 1.169761413, 2.81281357, 2.61995032, 2.209014212, 3.162953546, 3.339047188, 0.476683375, 3.234550982, 3.319983761, 3.319983761]
+==================
+[0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">'blue'</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="s1">'red'</span><span class="p">}</span>
+<span class="n">color_ls</span> <span class="o">=</span> <span class="p">[</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">():</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_ls</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">'Class 0'</span><span class="p">,</span> <span class="s1">'Class 1'</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">class_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">))</span>
+<span class="n">class_values</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[0, 1]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">split</span> <span class="o">=</span> <span class="n">get_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Split: [X</span><span class="si">%d</span><span class="s1"> &lt; </span><span class="si">%.3f</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">((</span><span class="n">split</span><span class="p">[</span><span class="s1">'index'</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">split</span><span class="p">[</span><span class="s1">'value'</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Split: [X1 &lt; 6.642]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Create-the-Tree">
+<a class="anchor" href="#Create-the-Tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create the Tree<a class="anchor-link" href="#Create-the-Tree"> </a>
+</h4>
+<p>To build the tree involves the following steps</p>
+<ul>
+<li>Need to have terminal nodes</li>
+<li>Have Recursive splitting</li>
+<li>and finally build the tree</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">terminal_node</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
+    <span class="n">outcomes</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">group</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">outcomes</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">outcomes</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">min_size</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
+	<span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s1">'groups'</span><span class="p">]</span>
+	<span class="k">del</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s1">'groups'</span><span class="p">])</span>
+	<span class="c1"># check for a no split</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">left</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">right</span><span class="p">:</span>
+		<span class="n">node</span><span class="p">[</span><span class="s1">'left'</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span> <span class="o">=</span> <span class="n">terminal_node</span><span class="p">(</span><span class="n">left</span> <span class="o">+</span> <span class="n">right</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="c1"># check for max depth</span>
+	<span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;=</span> <span class="n">max_depth</span><span class="p">:</span>
+		<span class="n">node</span><span class="p">[</span><span class="s1">'left'</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span> <span class="o">=</span> <span class="n">terminal_node</span><span class="p">(</span><span class="n">left</span><span class="p">),</span> <span class="n">terminal_node</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="c1"># process left child</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">min_size</span><span class="p">:</span>
+		<span class="n">node</span><span class="p">[</span><span class="s1">'left'</span><span class="p">]</span> <span class="o">=</span> <span class="n">terminal_node</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">node</span><span class="p">[</span><span class="s1">'left'</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_split</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+		<span class="n">split</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s1">'left'</span><span class="p">],</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">min_size</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+	<span class="c1"># process right child</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">min_size</span><span class="p">:</span>
+		<span class="n">node</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span> <span class="o">=</span> <span class="n">terminal_node</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">node</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_split</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+		<span class="n">split</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s1">'right'</span><span class="p">],</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">min_size</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">build_tree</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">min_size</span><span class="p">):</span>
+	<span class="n">root</span> <span class="o">=</span> <span class="n">get_split</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+	<span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">min_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">root</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+	<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">%s</span><span class="s1">[X</span><span class="si">%d</span><span class="s1"> &lt; </span><span class="si">%.3f</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">((</span><span class="n">depth</span><span class="o">*</span><span class="s1">' '</span><span class="p">,</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s1">'index'</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">node</span><span class="p">[</span><span class="s1">'value'</span><span class="p">])))</span>
+		<span class="n">print_tree</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s1">'left'</span><span class="p">],</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+		<span class="n">print_tree</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s1">'right'</span><span class="p">],</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">%s</span><span class="s1">[</span><span class="si">%s</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">((</span><span class="n">depth</span><span class="o">*</span><span class="s1">' '</span><span class="p">,</span> <span class="n">node</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">build_tree</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">tree</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{'index': 0, 'value': 6.642287351, 'left': 0, 'right': 1}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="ioannispol/notebooks"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/notebooks/machine-learning/jupyter/2022/04/29/decision-trees.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notebooks/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notebooks/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notebooks/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Ioannis Polymenis personal blog.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/ioannispol" target="_blank" title="ioannispol"><svg class="svg-icon grey"><use xlink:href="/notebooks/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/giannis-polimenis" target="_blank" title="giannis-polimenis"><svg class="svg-icon grey"><use xlink:href="/notebooks/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/PolIoannis" target="_blank" title="PolIoannis"><svg class="svg-icon grey"><use xlink:href="/notebooks/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
